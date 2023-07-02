@@ -5,3 +5,7 @@ output "name" {
 output "location" {
   value = azurerm_virtual_network.this.location
 }
+
+output "id" {
+  value = azurerm_virtual_network.this.id
+}

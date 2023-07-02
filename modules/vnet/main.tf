@@ -5,7 +5,7 @@ resource "azurerm_virtual_network" "this" {
   address_space       = [var.cidr]
 
   dynamic "subnet" {
-    for_each = var.subnets
+    for_each = toset(var.subnets)
 
     content {
       name = subnet.value.name

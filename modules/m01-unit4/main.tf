@@ -4,7 +4,7 @@ resource "azurerm_resource_group" "contoso" {
 }
 
 module "core_services_vnet" {
-  source = "./modules/vnet"
+  source = "./../vnet"
 
   name = "CoreServicesVnet"
   location  = "East US"
@@ -19,7 +19,7 @@ module "core_services_vnet" {
 }
 
 module "manufacturing_vnet" {
-  source = "./modules/vnet"
+  source = "./../vnet"
 
   name = "ManufacturingVnet"
   location  = "West Europe"
@@ -35,7 +35,7 @@ module "manufacturing_vnet" {
 }
 
 module "research_vnet" {
-  source = "./modules/vnet"
+  source = "./../vnet"
 
   name = "ResearchVnet"
   location  = "Southeast Asia"

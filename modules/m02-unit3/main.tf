@@ -1,43 +1,41 @@
 module "core_services_vm" {
-  source = "./modules/windows-vm"
+  source = "./../windows-vm"
 
   name = "CoreServices"
-  resource_group = azurerm_resource_group.contoso.name
-  vnet = module.core_services_vnet.name
+  resource_group = var.resource_group
+  vnet = var.core_services_vnet_name
   subnet = "DatabaseSubnet"
   username = var.username
   vm_size = "Standard_DS1_v2"
 }
 
 module "manufacturing_vm" {
-  source = "./modules/windows-vm"
+  source = "./../windows-vm"
 
   name = "Manufacturing"
-  resource_group = azurerm_resource_group.contoso.name
-  vnet = module.manufacturing_vnet.name
+  resource_group = var.resource_group
+  vnet = var.manufacturing_vnet_name
   subnet = "ManufacturingSystemSubnet"
   username = var.username
   vm_size = "Standard_DS1_v2"
 }
 
 module "core_services_vnet_gateway" {
-  source = "./modules/vnet-gateway"
+  source = "./../vnet-gateway"
 
   name = "CoreServices"
-  resource_group = azurerm_resource_group.contoso.name
-  vnet = module.core_services_vnet.name
+  resource_group = var.resource_group
+  vnet = var.core_services_vnet_name
   subnet = "GatewaySubnet"
 }
 
 module "manufacturing_vnet_gateway" {
-  source = "./modules/vnet-gateway"
+  source = "./../vnet-gateway"
 
   name = "Manufacturing"
-  resource_group = azurerm_resource_group.contoso.name
-  vnet = module.manufacturing_vnet.name
+  resource_group = var.resource_group
+  vnet = var.manufacturing_vnet_name
   subnet = "GatewaySubnet"
-
-  depends_on = [ module.manufacturing_vnet ]
 }
 
 resource "random_string" "shared_key" {
@@ -52,8 +50,8 @@ resource "random_string" "shared_key" {
 
 resource "azurerm_virtual_network_gateway_connection" "core_services_to_manufacturing" {
   name                = "CoreServicesGW-to-ManufacturingGW"
-  location            = module.core_services_vnet.location
-  resource_group_name = azurerm_resource_group.contoso.name
+  location            = var.core_services_vnet_location
+  resource_group_name = var.resource_group
 
   type                       = "Vnet2Vnet"
   virtual_network_gateway_id      = module.core_services_vnet_gateway.id
@@ -64,8 +62,8 @@ resource "azurerm_virtual_network_gateway_connection" "core_services_to_manufact
 
 resource "azurerm_virtual_network_gateway_connection" "manufacturing_to_core_services" {
   name                = "ManufacturingGW-to-CoreServicesGW"
-  location            = module.manufacturing_vnet.location
-  resource_group_name = azurerm_resource_group.contoso.name
+  location            = var.manufacturing_vnet_location
+  resource_group_name = var.resource_group
 
   type                       = "Vnet2Vnet"
   virtual_network_gateway_id      = module.manufacturing_vnet_gateway.id
