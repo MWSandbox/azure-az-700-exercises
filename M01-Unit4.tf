@@ -26,6 +26,7 @@ module "manufacturing_vnet" {
   resource_group_name = azurerm_resource_group.contoso.name
   cidr = "10.30.0.0/16"
   subnets = [
+    {name = "GatewaySubnet", cidr = "10.30.0.0/27"},
     {name = "ManufacturingSystemSubnet", cidr = "10.30.10.0/24"},
     {name = "SensorSubnet1", cidr = "10.30.20.0/24"},
     {name = "SensorSubnet2", cidr = "10.30.21.0/24"},
