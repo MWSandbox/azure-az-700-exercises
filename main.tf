@@ -2,11 +2,11 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.62.1"
+      version = "~> 4.3.0"
     }
   }
 
-  required_version = ">= 1.5.1"
+  required_version = ">= 1.9"
 }
 
 provider "azurerm" {
@@ -67,3 +67,17 @@ module "m02_unit7" {
 #   core_services_vnet = module.m01_unit4.core_services_vnet
 #   manufacturing_vnet = module.m01_unit4.manufacturing_vnet
 # }
+
+module "m04-unit4" {
+  count  = contains(var.module_list, "M04-Unit4") ? 1 : 0
+  source = "./modules/m04-unit4"
+
+  resource_group              = module.m01_unit4.resource_group_name
+  core_services_vnet_name     = module.m01_unit4.core_services_vnet.name
+  core_services_vnet_location = module.m01_unit4.core_services_vnet.location
+  bastion_subnet_id           = module.m01_unit4.core_services_vnet.subnets["AzureBastionSubnet"]
+  shared_services_subnet_id   = module.m01_unit4.core_services_vnet.subnets["SharedServicesSubnet"]
+  username                    = var.username
+
+  # depends_on = [ module.m01_unit4 ]
+}

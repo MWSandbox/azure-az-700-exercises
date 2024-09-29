@@ -7,6 +7,7 @@ output "core_services_vnet" {
     id       = module.core_services_vnet.id
     name     = module.core_services_vnet.name
     location = module.core_services_vnet.location
+    subnets  = module.core_services_vnet.subnets
   }
 }
 
@@ -15,6 +16,7 @@ output "manufacturing_vnet" {
     id       = module.manufacturing_vnet.id
     name     = module.manufacturing_vnet.name
     location = module.manufacturing_vnet.location
+    subnets  = module.manufacturing_vnet.subnets
   }
 }
 
@@ -23,5 +25,6 @@ output "research_vnet" {
     id       = module.research_vnet.id
     name     = module.research_vnet.name
     location = module.research_vnet.location
+    subnets  = module.research_vnet.subnets
   }
 }

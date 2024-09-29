@@ -15,10 +15,5 @@ variable "resource_group_name" {
 }
 
 variable "subnets" {
-  type = list(object(
-    {
-      name = string
-      cidr = string
-    }
-  ))
+  type = map(string)
 }

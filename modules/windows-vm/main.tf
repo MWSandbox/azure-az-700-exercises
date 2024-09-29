@@ -1,7 +1,3 @@
-data "http" "my_ip" {
-  url = "http://icanhazip.com"
-}
-
 data "azurerm_virtual_network" "this" {
   name                = var.vnet
   resource_group_name = var.resource_group
@@ -32,7 +28,7 @@ resource "azurerm_network_interface" "primary" {
     name                          = "ipconfig1"
     subnet_id                     = data.azurerm_subnet.this.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.this.id
+    public_ip_address_id          = var.is_public ? azurerm_public_ip.this[0].id : null
   }
 }
 
@@ -44,6 +40,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   admin_username        = var.username
   admin_password        = random_string.password.result
   network_interface_ids = [azurerm_network_interface.primary.id]
+  availability_set_id   = var.availability_set_id
 
   os_disk {
     caching              = "None"
@@ -59,31 +56,10 @@ resource "azurerm_windows_virtual_machine" "this" {
 }
 
 resource "azurerm_public_ip" "this" {
+  count = var.is_public ? 1 : 0
+
   name                = "${var.name}-IP"
   resource_group_name = var.resource_group
   location            = data.azurerm_virtual_network.this.location
   allocation_method   = "Dynamic"
-}
-
-resource "azurerm_network_security_group" "this" {
-  name                = "${var.name}-NSG"
-  location            = data.azurerm_virtual_network.this.location
-  resource_group_name = var.resource_group
-
-  security_rule {
-    name                       = "default-allow-rdp"
-    priority                   = 1000
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "3389"
-    source_address_prefix      = "${chomp(data.http.my_ip.response_body)}/32"
-    destination_address_prefix = "*"
-  }
-}
-
-resource "azurerm_subnet_network_security_group_association" "subnet" {
-  subnet_id                 = data.azurerm_subnet.this.id
-  network_security_group_id = azurerm_network_security_group.this.id
 }

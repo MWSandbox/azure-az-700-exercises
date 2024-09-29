@@ -21,3 +21,13 @@ variable "username" {
 variable "vm_size" {
   type = string
 }
+
+variable "availability_set_id" {
+  type    = string
+  default = null
+}
+
+variable "is_public" {
+  type    = bool
+  default = true
+}

@@ -9,3 +9,7 @@ output "location" {
 output "id" {
   value = azurerm_virtual_network.this.id
 }
+
+output "subnets" {
+  value = { for key, value in azurerm_subnet.this : key => value.id }
+}
