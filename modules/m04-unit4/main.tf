@@ -77,3 +77,11 @@ module "caller_vm" {
   vm_size        = "Standard_DS1_v2"
   is_public      = false
 }
+
+module "bastion" {
+  source = "../bastion"
+
+  resource_group = var.resource_group
+  location       = var.core_services_vnet_location
+  subnet_id      = var.bastion_subnet_id
+}

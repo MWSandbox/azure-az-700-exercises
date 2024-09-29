@@ -78,6 +78,18 @@ module "m04-unit4" {
   bastion_subnet_id           = module.m01_unit4.core_services_vnet.subnets["AzureBastionSubnet"]
   shared_services_subnet_id   = module.m01_unit4.core_services_vnet.subnets["SharedServicesSubnet"]
   username                    = var.username
-
-  # depends_on = [ module.m01_unit4 ]
 }
+
+module "m05-unit4" {
+  count  = contains(var.module_list, "M05-Unit4") ? 1 : 0
+  source = "./modules/m05-unit4"
+
+  resource_group                = module.m01_unit4.resource_group_name
+  core_services_vnet_name       = module.m01_unit4.core_services_vnet.name
+  core_services_vnet_location   = module.m01_unit4.core_services_vnet.location
+  public_web_services_subnet_id = module.m01_unit4.core_services_vnet.subnets["PublicWebServiceSubnet"]
+  shared_services_subnet_id     = module.m01_unit4.core_services_vnet.subnets["SharedServicesSubnet"]
+  bastion_subnet_id             = module.m01_unit4.core_services_vnet.subnets["AzureBastionSubnet"]
+  username                      = var.username
+}
+
