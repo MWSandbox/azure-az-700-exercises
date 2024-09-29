@@ -68,7 +68,7 @@ module "m02_unit7" {
 #   manufacturing_vnet = module.m01_unit4.manufacturing_vnet
 # }
 
-module "m04-unit4" {
+module "m04_unit4" {
   count  = contains(var.module_list, "M04-Unit4") ? 1 : 0
   source = "./modules/m04-unit4"
 
@@ -80,7 +80,7 @@ module "m04-unit4" {
   username                    = var.username
 }
 
-module "m05-unit4" {
+module "m05_unit4" {
   count  = contains(var.module_list, "M05-Unit4") ? 1 : 0
   source = "./modules/m05-unit4"
 
@@ -91,5 +91,17 @@ module "m05-unit4" {
   shared_services_subnet_id     = module.m01_unit4.core_services_vnet.subnets["SharedServicesSubnet"]
   bastion_subnet_id             = module.m01_unit4.core_services_vnet.subnets["AzureBastionSubnet"]
   username                      = var.username
+
+  depends_on = [module.m01_unit4]
+}
+
+module "m05_unit6" {
+  count  = contains(var.module_list, "M05-Unit6") ? 1 : 0
+  source = "./modules/m05-unit6"
+
+  resource_group         = module.m01_unit4.resource_group_name
+  application_gateway_ip = module.m05_unit4[0].application_gateway_ip
+
+  depends_on = [module.m05_unit4]
 }
 
