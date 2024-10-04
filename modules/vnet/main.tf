@@ -3,7 +3,7 @@ data "http" "my_ip" {
 }
 
 locals {
-  nsg_relevant_subnets = { for key, value in var.subnets : key => value if !contains(["GatewaySubnet", "AzureBastionSubnet"], key) }
+  nsg_relevant_subnets = { for key, value in var.subnets : key => value if !contains(["GatewaySubnet", "AzureBastionSubnet", "AzureFirewallSubnet"], key) }
 }
 
 resource "azurerm_virtual_network" "this" {

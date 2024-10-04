@@ -31,3 +31,8 @@ variable "is_public" {
   type    = bool
   default = true
 }
+
+variable "dns_servers" {
+  type    = list(string)
+  default = ["168.63.129.16"]
+}

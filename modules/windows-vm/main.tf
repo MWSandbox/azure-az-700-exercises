@@ -23,6 +23,7 @@ resource "azurerm_network_interface" "primary" {
   name                = "${var.name}VM-nic"
   location            = data.azurerm_virtual_network.this.location
   resource_group_name = var.resource_group
+  dns_servers         = var.dns_servers
 
   ip_configuration {
     name                          = "ipconfig1"

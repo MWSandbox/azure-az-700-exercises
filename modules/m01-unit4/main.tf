@@ -16,6 +16,7 @@ module "core_services_vnet" {
     "DatabaseSubnet"         = "10.20.20.0/24"
     "PublicWebServiceSubnet" = "10.20.30.0/24"
     "AzureBastionSubnet"     = "10.20.40.0/24"
+    "AzureFirewallSubnet"    = "10.20.50.0/24"
   }
 }
 

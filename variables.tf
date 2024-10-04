@@ -4,6 +4,6 @@ variable "username" {
 
 variable "module_list" {
   type        = list(string)
-  default     = ["M04-Unit6"]
+  default     = ["M01-Unit4", "M06-Unit7"]
   description = "List of modules from the exercises to rollout. M01-Unit4 needs to be always there."
 }

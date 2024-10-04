@@ -114,3 +114,17 @@ module "m05_unit6" {
   depends_on = [module.m05_unit4]
 }
 
+module "m06_unit7" {
+  count  = contains(var.module_list, "M06-Unit7") ? 1 : 0
+  source = "./modules/m06-unit7"
+
+  resource_group              = module.m01_unit4[0].resource_group_name
+  core_services_vnet_name     = module.m01_unit4[0].core_services_vnet.name
+  core_services_vnet_location = module.m01_unit4[0].core_services_vnet.location
+  firewall_subnet_id          = module.m01_unit4[0].core_services_vnet.subnets["AzureFirewallSubnet"]
+  shared_services_subnet_id   = module.m01_unit4[0].core_services_vnet.subnets["SharedServicesSubnet"]
+  username                    = var.username
+
+  depends_on = [module.m01_unit4]
+}
+
