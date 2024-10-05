@@ -128,3 +128,16 @@ module "m06_unit7" {
   depends_on = [module.m01_unit4]
 }
 
+module "m06_unit9" {
+  count  = contains(var.module_list, "M06-Unit9") ? 1 : 0
+  source = "./modules/m06-unit9"
+
+  resource_group          = module.m01_unit4[0].resource_group_name
+  core_services_vnet_name = module.m01_unit4[0].core_services_vnet.name
+  core_services_vnet_id   = module.m01_unit4[0].core_services_vnet.id
+  manufacturing_vnet_name = module.m01_unit4[0].manufacturing_vnet.name
+  manufacturing_vnet_id   = module.m01_unit4[0].manufacturing_vnet.id
+  username                = var.username
+
+  depends_on = [module.m01_unit4]
+}
