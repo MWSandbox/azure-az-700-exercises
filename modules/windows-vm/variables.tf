@@ -36,3 +36,8 @@ variable "dns_servers" {
   type    = list(string)
   default = ["168.63.129.16"]
 }
+
+variable "log_analytics_workspace_id" {
+  type    = string
+  default = null
+}
