@@ -91,7 +91,7 @@ resource "azurerm_public_ip" "this" {
   name                = "${var.name}-IP"
   resource_group_name = var.resource_group
   location            = data.azurerm_virtual_network.this.location
-  allocation_method   = "Dynamic"
+  allocation_method   = "Static"
 }
 
 resource "azurerm_virtual_machine_extension" "network_watcher" {
